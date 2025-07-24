@@ -1,20 +1,12 @@
-import LogoutButton from './LogoutButton'
-
-export default function ChatHeader({ theme }) {
+export default function ChatHeader({ selectedUser }) {
   return (
-    <header
-      className={`p-4 flex justify-between items-center ${
-        theme === 'dark-gradient'
-          ? 'bg-gradient-to-b from-indigo-900 to-indigo-700 text-white'
-          : 'bg-white'
-      }`}
-    >
+    <header className="p-4 flex justify-between items-center bg-white">
       <div>
-        <h3 className="text-lg font-bold">Chat with Alice</h3>
+        <h3 className="text-lg font-bold">
+          {selectedUser ? `Chat with ${selectedUser.name}` : 'Select a user'}
+        </h3>
         <span className="text-sm text-green-400">● Online</span>
       </div>
-
-      <LogoutButton />
     </header>
   )
 }

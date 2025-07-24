@@ -1,32 +1,39 @@
 'use client'
+import { useState } from 'react'
 
-import ProtectedRoute from '../../components/ProtectedRoute'
 import Sidebar from '../../components/Sidebar'
 import ChatHeader from '../../components/ChatHeader'
-import ChatWindow from '../../components/ChatWindow'
 import ChatInput from '../../components/ChatInput'
+import ChatWindow from '../../components/ChatWindow'
+import ChatRoom from '../../components/ChatRoom'
 
 export default function ChatPage() {
-  return (
-    <ProtectedRoute>
-      <div className="flex h-screen">
-        {/* Sidebar */}
-        <div className="w-[300px] bg-gray-900 text-white p-4">
-          <h2 className="text-xl font-bold mb-4">Chats</h2>
-          <Sidebar />
-        </div>
+  const [selectedUser, setSelectedUser] = useState(null)
 
-        {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col">
-          <ChatHeader />
-          <div className="flex-1 overflow-y-auto p-4 bg-gray-100">
-            <ChatWindow />
-          </div>
-          <div className="p-4 bg-white border-t">
-            <ChatInput />
-          </div>
-        </div>
+  return (
+    <div className="flex h-screen">
+      {/* Sidebar */}
+      <div className="w-[300px] bg-gray-900 text-white p-4">
+        <h2 className="text-xl font-bold mb-4">Chats</h2>
+        <Sidebar onSelectUser={setSelectedUser} />
       </div>
-    </ProtectedRoute>
+
+      {/* Main Chat */}
+      <div className="flex-1 flex flex-col">
+        <ChatHeader selectedUser={selectedUser} />
+        <div className="flex-1 overflow-y-auto p-4 bg-gray-100">
+          {selectedUser ? (
+            <ChatRoom selectedUser={selectedUser} />
+          ) : (
+            <div className="text-center text-gray-500 mt-20">Select a user to start chatting</div>
+          )}
+        </div>
+        {selectedUser && (
+          <div className="p-4 bg-white border-t">
+            <ChatInput selectedUser={selectedUser} />
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
